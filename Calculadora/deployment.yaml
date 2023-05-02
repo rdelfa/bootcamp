@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculadora-service
+spec:
+  selector:
+    app: calculadora
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculadora-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calculadora
+  template:
+    metadata:
+      labels:
+        app: calculadora
+    spec:
+      containers:
+        - name: calculadora
+          image: rdelfa/ejnode:1
+          ports:
+            - containerPort: 3000
+
